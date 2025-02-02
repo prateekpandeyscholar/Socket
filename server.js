@@ -4,6 +4,9 @@ var io = require('socket.io')(http);
 var url = require('url');
 var bodyParser = require('body-parser');
 //app.use(bodyParser());
+const cors = require('cors');
+app.use(cors());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 var clientResponseRef;
@@ -18,6 +21,7 @@ app.get('/*',(req,res)=>{
     method:"get",
     params: req.query
   }
+  console.log("📡 Server emitting 'page-request':", obj); // Debugging log
   io.emit("page-request",obj);
   clientResponseRef=res;
 })
@@ -40,6 +44,11 @@ io.on('connection',(socket)=>{
         }
     })
 })
+
+// setTimeout(() => {
+//     io.emit("page-request", { pathname: "/manual", method: "get", params: {} });
+//     console.log("🚀 Manually emitted 'page-request'");
+// }, 5000);
 var server_port = process.env.PORT||3000;
 http.listen(server_port,"0.0.0.0",()=>{
     console.log("listening on:"+ server_port);
