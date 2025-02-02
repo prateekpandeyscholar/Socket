@@ -1,7 +1,7 @@
 var app = require('express')();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
-var url = requre('url');
+var url = require('url');
 var bodyParser = require('body-parser');
 app.use(bodyParser());
 var clientResponseRef;
