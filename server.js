@@ -32,6 +32,6 @@ io.on('conntection',(socket)=>{
     })
 })
 var server_port = process.env.YOUR_PORT||process.env.port||3000;
-http.listen(server_port,()=>{
-    console.log("listentin on:"+ server_port);
+http.listen(server_port,"0.0.0.0",()=>{
+    console.log("listening on:"+ server_port);
 })
