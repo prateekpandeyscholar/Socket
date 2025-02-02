@@ -25,13 +25,13 @@ app.post('/*',(req,res)=>{
     io.emit("page-request",obj);
     clientResponseRef=res;
 })
-io.on('conntection',(socket)=>{
+io.on('connection',(socket)=>{
     console.log('a node connected');
     socket.on("page-response",(response)=>{
     clientResponseRef.send(response);
     })
 })
-var server_port = process.env.YOUR_PORT||process.env.port||3000;
+var server_port = process.env.PORT||3000;
 http.listen(server_port,"0.0.0.0",()=>{
     console.log("listening on:"+ server_port);
 })
