@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 var clientResponseRef;
+app.get('/favicon.ico', (req, res) => res.status(204).end());
 app.get("/", (req, res) => {
     res.send("Server is running!");
 });
