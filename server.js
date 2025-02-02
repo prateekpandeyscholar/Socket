@@ -3,8 +3,13 @@ var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 var url = require('url');
 var bodyParser = require('body-parser');
-app.use(bodyParser());
+//app.use(bodyParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 var clientResponseRef;
+app.get("/", (req, res) => {
+    res.send("Server is running!");
+});
 app.get('/*',(req,res)=>{
   var pathname = url.parse(req.url).pathname;
   var obj = {
@@ -28,7 +33,10 @@ app.post('/*',(req,res)=>{
 io.on('connection',(socket)=>{
     console.log('a node connected');
     socket.on("page-response",(response)=>{
-    clientResponseRef.send(response);
+        if (clientResponseRef) {
+            clientResponseRef.send(response);
+            clientResponseRef = null; // Reset to avoid stale references
+        }
     })
 })
 var server_port = process.env.PORT||3000;
